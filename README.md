@@ -103,3 +103,81 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ---
+
+Ambiente hospedado
+
+dev
+```
+cd /mnt/dev/broker-api
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+prod 
+````
+cd /mnt/prod/broker-api
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+Tornar start.sh Executável:
+
+````
+chmod +x /mnt/dev/broker-api/start.sh /mnt/prod/broker-api/start.sh
+`````
+
+3. Atualizar os Serviços Systemd
+Ajuste o broker-api-dev.service e crie o broker-api-prod.service para usar o usuário ubuntu e os diretórios corretos.
+
+Atualizar broker-api-dev.service:
+bash
+
+sudo nano /etc/systemd/system/broker-api-dev.service
+Substitua por:
+ini
+
+[Unit]
+Description=Serviço Uvicorn para API do Broker (Dev)
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/mnt/dev/broker-api
+Environment="ENVIRONMENT=development"
+ExecStart=/bin/bash /mnt/dev/broker-api/start.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+Criar broker-api-prod.service:
+bash
+
+sudo nano /etc/systemd/system/broker-api-prod.service
+Adicione:
+ini
+
+[Unit]
+Description=Serviço Gunicorn para API do Broker (Prod)
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/mnt/prod/broker-api
+Environment="ENVIRONMENT=production"
+ExecStart=/bin/bash /mnt/prod/broker-api/start.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+Ativar e Iniciar os Serviços:
+bash
+
+sudo systemctl daemon-reload
+sudo systemctl enable broker-api-dev.service
+sudo systemctl start broker-api-dev.service
+sudo systemctl enable broker-api-prod.service
+sudo systemctl start broker-api-prod.service
