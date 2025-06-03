@@ -95,7 +95,7 @@ async def status():
     Verifica o status da API.
     """
     logger.info("Received status check request", extra={"method": "GET", "endpoint": "/", "status_code": 200})
-    response = {"status": "ok"}
+    response = {"status": "ok", "environment": ENVIRONMENT}
     logger.info("Status check successful", extra={"method": "GET", "endpoint": "/", "status_code": 200})
     return response
  
