@@ -48,18 +48,22 @@ app = FastAPI(title="Open Service Broker API",debug=ENVIRONMENT == 'development'
 # Middleware para validar o header X-Broker-Api-Version
 @app.middleware("http")
 async def validar_header_x_broker_api_version(request: Request, call_next):
-    versao = request.headers.get("X-Broker-Api-Version")
-    
-    if versao != "2.12":
+    # rotas que não precisam do header
+    rotas_liberadas = ["/status", "/docs", "/openapi.json"]
+
+    if request.url.path in rotas_liberadas:
+        return await call_next(request)
+
+    if request.headers.get("X-Broker-Api-Version") != "2.12":
         logger.warning(
             "Header X-Broker-Api-Version ausente ou inválido",
             extra={"method": request.method, "endpoint": request.url.path, "status_code": 412}
         )
-        return JSONResponse(
-            status_code=412,
-            content={"detail": "Cabeçalho 'X-Broker-Api-Version' ausente ou inválido. A versão obrigatória é 2.12."}
+        return Response(
+            content='Cabeçalho "X-Broker-Api-Version: 2.12" obrigatório.',
+            status_code=412
         )
- 
+
     return await call_next(request)
  
 # Configuração do Open Service Broker
