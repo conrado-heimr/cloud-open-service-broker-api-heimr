@@ -34,7 +34,7 @@ from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from ibm_cloud_sdk_core.utils import convert_model
 
-from common import get_sdk_headers
+from sdk_ibm_services.common import get_sdk_headers
 
 ##############################################################################
 # Service

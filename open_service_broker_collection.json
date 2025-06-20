@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "SUA_ID_UNICO_AQUI",
+		"name": "Open Service Broker API Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_collection_link": "https://api.postman.com/collections/SUA_ID_UNICO_AQUI?access_key=SUA_CHAVE_DE_ACESSO_AQUI"
+	},
+	"item": [
+		{
+			"name": "API Gateway Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/status",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"status"
+					]
+				},
+				"description": "Verifica o status geral do API Gateway."
+			},
+			"response": []
+		},
+		{
+			"name": "Welcome Message (Root)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Endpoint de boas-vindas na rota raiz, sem necessidade de cabeçalho OSB."
+			},
+			"response": []
+		},
+		{
+			"name": "Cloud Professional Services",
+			"item": [
+				{
+					"name": "Get Cloud Catalog",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Broker-Api-Version",
+								"value": "2.12",
+								"type": "text",
+								"description": "Versão da API do Open Service Broker."
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cloud-professional-services/v2/catalog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cloud-professional-services",
+								"v2",
+								"catalog"
+							]
+						},
+						"description": "Obtém o catálogo de serviços Cloud Professional Services do IBM Global Catalog."
+					},
+					"response": []
+				},
+				{
+					"name": "Provision Cloud Service Instance",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-Broker-Api-Version",
+								"value": "2.12",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"service_id\": \"{{GC_OBJECT_ID_CLOUD}}\",\n    \"plan_id\": \"<SEU_PLAN_ID_CLOUD_AQUI>\",\n    \"organization_guid\": \"<SEU_ORG_GUID_AQUI>\",\n    \"space_guid\": \"<SEU_SPACE_GUID_AQUI>\",\n    \"parameters\": {\n        \"example_param\": \"example_value\"\n    },\n    \"accepts_incomplete\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cloud-professional-services/v2/service_instances/<INSTANCE_ID>",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cloud-professional-services",
+								"v2",
+								"service_instances",
+								"<INSTANCE_ID>"
+							]
+						},
+						"description": "Provisiona uma nova instância de serviço Cloud Professional Services."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cloud Service Instance",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-Broker-Api-Version",
+								"value": "2.12",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"service_id\": \"{{GC_OBJECT_ID_CLOUD}}\",\n    \"plan_id\": \"<NOVO_PLAN_ID_CLOUD_AQUI>\",\n    \"parameters\": {\n        \"another_param\": \"another_value\"\n    },\n    \"accepts_incomplete\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cloud-professional-services/v2/service_instances/<INSTANCE_ID>",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cloud-professional-services",
+								"v2",
+								"service_instances",
+								"<INSTANCE_ID>"
+							]
+						},
+						"description": "Atualiza uma instância de serviço Cloud Professional Services existente."
+					},
+					"response": []
+				},
+				{
+					"name": "Deprovision Cloud Service Instance",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Broker-Api-Version",
+								"value": "2.12",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cloud-professional-services/v2/service_instances/<INSTANCE_ID>?service_id={{GC_OBJECT_ID_CLOUD}}&plan_id=<SEU_PLAN_ID_CLOUD_AQUI>&accepts_incomplete=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cloud-professional-services",
+								"v2",
+								"service_instances",
+								"<INSTANCE_ID>"
+							],
+							"query": [
+								{
+									"key": "service_id",
+									"value": "{{GC_OBJECT_ID_CLOUD}}"
+								},
+								{
+									"key": "plan_id",
+									"value": "<SEU_PLAN_ID_CLOUD_AQUI>"
+								},
+								{
+									"key": "accepts_incomplete",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Desprovisiona (deleta) uma instância de serviço Cloud Professional Services."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "VMware Professional Services",
+			"item": [
+				{
+					"name": "Get VMware Catalog",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Broker-Api-Version",
+								"value": "2.12",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/vmware-professional-services/v2/catalog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vmware-professional-services",
+								"v2",
+								"catalog"
+							]
+						},
+						"description": "Obtém o catálogo de serviços VMware Professional Services."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PowerVS Professional Services",
+			"item": [
+				{
+					"name": "Get PowerVS Catalog",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Broker-Api-Version",
+								"value": "2.12",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/powervs-professional-services/v2/catalog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"powervs-professional-services",
+								"v2",
+								"catalog"
+							]
+						},
+						"description": "Obtém o catálogo de serviços PowerVS Professional Services."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string",
+			"description": "URL base da sua API (ex: http://localhost:8000 ou https://your-domain.com)"
+		},
+		{
+			"key": "IAM_APIKEY",
+			"value": "SUA_API_KEY_AQUI",
+			"type": "string",
+			"description": "Sua chave de API IAM da IBM Cloud."
+		},
+		{
+			"key": "GC_OBJECT_ID_CLOUD",
+			"value": "seu_gc_object_id_para_cloud",
+			"type": "string",
+			"description": "GC_OBJECT_ID para Cloud Professional Services."
+		},
+		{
+			"key": "GC_OBJECT_ID_VMWARE",
+			"value": "seu_gc_object_id_para_vmware",
+			"type": "string",
+			"description": "GC_OBJECT_ID para VMware Professional Services."
+		},
+		{
+			"key": "GC_OBJECT_ID_POWERVS",
+			"value": "seu_gc_object_id_para_powervs",
+			"type": "string",
+			"description": "GC_OBJECT_ID para PowerVS Professional Services."
+		}
+	]
+}
