@@ -20,7 +20,7 @@ class Settings:
     GC_OBJECT_ID_CLOUD: str = os.getenv("GC_OBJECT_ID_CLOUD")
     GC_OBJECT_ID_VMWARE: str = os.getenv("GC_OBJECT_ID_VMWARE")
     GC_OBJECT_ID_POWERVS: str = os.getenv("GC_OBJECT_ID_POWERVS")
-    GC_OBJECT_ID_TEXTRACT: Optional[str] = os.getenv("GC_OBJECT_ID_TEXTRACT")
+    ROOT_PATH = os.environ.get("ROOT_PATH", "")
 
     def __init__(self):
         if not self.IAM_APIKEY:
