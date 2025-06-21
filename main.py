@@ -15,7 +15,7 @@ from routers.open_service_routes import create_osb_router
 logger = setup_logging()
 
 # Configuração do FastAPI
-app = FastAPI(title="Open Service Broker API", debug=settings.ENVIRONMENT == 'development')
+app = FastAPI(title="Open Service Broker API", debug=settings.ENVIRONMENT == 'development', root_path=settings.ROOT_PATH)
 
 # Middleware para validar o header X-Broker-Api-Version
 @app.middleware("http")
