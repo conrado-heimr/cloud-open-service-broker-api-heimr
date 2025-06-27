@@ -1,7 +1,7 @@
 # main.py
 from fastapi import FastAPI, Request, Response
 from fastapi.staticfiles import StaticFiles
-
+import os
 
 # Importe suas configurações da pasta 'config'
 from config.settings import settings
@@ -17,6 +17,22 @@ logger = setup_logging()
 
 # Configuração do FastAPI
 app = FastAPI(title="Open Service Broker API", debug=settings.ENVIRONMENT == 'development', root_path=settings.ROOT_PATH)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ABSOLUTE_IMAGES_DIR = os.path.join(BASE_DIR, settings.IMAGES_DIR)
+
+if not os.path.exists(ABSOLUTE_IMAGES_DIR):
+    os.makedirs(ABSOLUTE_IMAGES_DIR)
+    logger.info(f"Pasta '{ABSOLUTE_IMAGES_DIR}' criada.")
+
+    # Cria um arquivo placeholder para teste
+    try:
+        with open(os.path.join(ABSOLUTE_IMAGES_DIR, "logo.jpeg"), "w") as f:
+            f.write("Este é um placeholder para sua imagem logo.jpeg")
+        logger.info(f"Arquivo '{ABSOLUTE_IMAGES_DIR}/logo.jpeg' criado como placeholder.")
+    except Exception as e:
+        logger.error(f"Não foi possível criar arquivo placeholder em {ABSOLUTE_IMAGES_DIR}: {e}")
+
 
 # Middleware para validar o header X-Broker-Api-Version
 @app.middleware("http")
@@ -81,6 +97,6 @@ app.include_router(
 
 app.mount(
     "/images",  # O prefixo da URL onde os arquivos serão servidos
-    StaticFiles(directory=settings.IMAGES_DIR), # O diretório físico de onde os arquivos serão pegos
+    StaticFiles(directory=ABSOLUTE_IMAGES_DIR), # <--- AGORA USA O CAMINHO ABSOLUTO CALCULADO
     name="images" # Um nome para a rota, útil para gerar URLs (opcional, mas boa prática)
 )
