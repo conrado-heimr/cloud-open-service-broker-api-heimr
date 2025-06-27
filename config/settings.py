@@ -21,7 +21,14 @@ class Settings:
     GC_OBJECT_ID_VMWARE: str = os.getenv("GC_OBJECT_ID_VMWARE")
     GC_OBJECT_ID_POWERVS: str = os.getenv("GC_OBJECT_ID_POWERVS")
     ROOT_PATH = os.environ.get("ROOT_PATH", "")
+    IMAGES_DIR = "images"
 
+    # Cria a pasta 'images' se ela não existir.
+    # Isso é útil para o exemplo ser executável imediatamente.
+    if not os.path.exists(IMAGES_DIR):
+        os.makedirs(IMAGES_DIR)
+        print(f"Pasta '{IMAGES_DIR}' criada.")
+       
     def __init__(self):
         if not self.IAM_APIKEY:
             logger.error("ERRO: Variável de ambiente IAM_APIKEY não definida.")

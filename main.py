@@ -1,6 +1,7 @@
 # main.py
-from fastapi import FastAPI, Request, Response, HTTPException
-import os
+from fastapi import FastAPI, Request, Response
+from fastapi.staticfiles import StaticFiles
+
 
 # Importe suas configurações da pasta 'config'
 from config.settings import settings
@@ -21,7 +22,10 @@ app = FastAPI(title="Open Service Broker API", debug=settings.ENVIRONMENT == 'de
 @app.middleware("http")
 async def validar_header_x_broker_api_version(request: Request, call_next):
     # rotas que não precisam do header (status ou docs genéricos)
-    rotas_liberadas = ["/", "/docs", "/openapi.json"]
+    rotas_liberadas = ["/", "/docs", "/openapi.json","/images"]
+
+    if request.url.path.startswith("/images/"):
+        return await call_next(request)
 
     if any(request.url.path.startswith(f"/{service_type}/status") for service_type in ["cloud-professional-services", "vmware-professional-services", "powervs-professional-services", "textract"]) or \
        request.url.path in rotas_liberadas:
@@ -71,4 +75,12 @@ app.include_router(
     create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_POWERVS),
     prefix="/powervs-professional-services",
     tags=["PowerVS Professional Services OSB"],
+)
+
+# images
+
+app.mount(
+    "/images",  # O prefixo da URL onde os arquivos serão servidos
+    StaticFiles(directory=settings.IMAGES_DIR), # O diretório físico de onde os arquivos serão pegos
+    name="images" # Um nome para a rota, útil para gerar URLs (opcional, mas boa prática)
 )
