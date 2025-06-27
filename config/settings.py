@@ -17,11 +17,14 @@ class Settings:
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
     IAM_APIKEY: str = os.getenv("IAM_API_KEY")
 
+    BASE_DIR = os.path.dirname(os.path.abspath('main.py'))
+    ROOT_PATH = os.environ.get("ROOT_PATH", "")
+    
     GC_OBJECT_ID_CLOUD: str = os.getenv("GC_OBJECT_ID_CLOUD")
     GC_OBJECT_ID_VMWARE: str = os.getenv("GC_OBJECT_ID_VMWARE")
     GC_OBJECT_ID_POWERVS: str = os.getenv("GC_OBJECT_ID_POWERVS")
-    ROOT_PATH = os.environ.get("ROOT_PATH", "")
-    IMAGES_DIR = "images"
+
+    IMAGES_DIR = os.path.join(BASE_DIR,"images")
 
     # Cria a pasta 'images' se ela não existir.
     # Isso é útil para o exemplo ser executável imediatamente.
