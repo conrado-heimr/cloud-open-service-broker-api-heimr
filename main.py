@@ -36,10 +36,11 @@ if not os.path.exists(ABSOLUTE_IMAGES_DIR):
 # images
 
 app.mount(
-    "/images",  
+    f"{settings.ROOT_PATH}/images",  
     StaticFiles(directory=ABSOLUTE_IMAGES_DIR), 
     name="images" 
 )
+
 
 
 # Middleware para validar o header X-Broker-Api-Version
