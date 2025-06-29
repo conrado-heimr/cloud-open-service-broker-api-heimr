@@ -46,7 +46,7 @@ app.mount(
 @app.middleware("http")
 async def validar_header_x_broker_api_version(request: Request, call_next):
     # rotas que não precisam do header (status ou docs genéricos)
-    rotas_liberadas = ["/", "/docs", "/openapi.json","/images",f"{settings.ROOT_PATH}/images"]
+    rotas_liberadas = ["/", "/docs", "/openapi.json", "/images", f"{settings.ROOT_PATH}/images"]
 
     if request.url.path.startswith(f"{settings.ROOT_PATH}/images"):
         return await call_next(request)
