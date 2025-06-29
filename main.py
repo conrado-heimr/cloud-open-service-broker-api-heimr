@@ -33,6 +33,14 @@ if not os.path.exists(ABSOLUTE_IMAGES_DIR):
     except Exception as e:
         logger.error(f"Não foi possível criar arquivo placeholder em {ABSOLUTE_IMAGES_DIR}: {e}")
 
+# images
+
+app.mount(
+    "/images",  # O prefixo da URL onde os arquivos serão servidos
+    StaticFiles(directory=ABSOLUTE_IMAGES_DIR), # <--- AGORA USA O CAMINHO ABSOLUTO CALCULADO
+    name="images" # Um nome para a rota, útil para gerar URLs (opcional, mas boa prática)
+)
+
 
 # Middleware para validar o header X-Broker-Api-Version
 @app.middleware("http")
@@ -93,10 +101,3 @@ app.include_router(
     tags=["PowerVS Professional Services OSB"],
 )
 
-# images
-
-app.mount(
-    "/images",  # O prefixo da URL onde os arquivos serão servidos
-    StaticFiles(directory=ABSOLUTE_IMAGES_DIR), # <--- AGORA USA O CAMINHO ABSOLUTO CALCULADO
-    name="images" # Um nome para a rota, útil para gerar URLs (opcional, mas boa prática)
-)
