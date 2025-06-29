@@ -48,7 +48,7 @@ async def validar_header_x_broker_api_version(request: Request, call_next):
     # rotas que não precisam do header (status ou docs genéricos)
     rotas_liberadas = ["/", "/docs", "/openapi.json","/images"]
 
-    if request.url.path.startswith("/images/"):
+    if request.url.path.startswith("/images"):
         return await call_next(request)
 
     if any(request.url.path.startswith(f"/{service_type}/status") for service_type in ["cloud-professional-services", "vmware-professional-services", "powervs-professional-services", "textract"]) or \
