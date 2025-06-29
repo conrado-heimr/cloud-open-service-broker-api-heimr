@@ -27,9 +27,9 @@ if not os.path.exists(ABSOLUTE_IMAGES_DIR):
 
     # Cria um arquivo placeholder para teste
     try:
-        with open(os.path.join(ABSOLUTE_IMAGES_DIR, "logo.jpeg"), "w") as f:
-            f.write("Este é um placeholder para sua imagem logo.jpeg")
-        logger.info(f"Arquivo '{ABSOLUTE_IMAGES_DIR}/logo.jpeg' criado como placeholder.")
+        with open(os.path.join(ABSOLUTE_IMAGES_DIR, "teste.jpeg"), "w") as f:
+            f.write("Este é um placeholder para sua imagem teste.jpeg")
+        logger.info(f"Arquivo '{ABSOLUTE_IMAGES_DIR}/teste.jpeg' criado como placeholder.")
     except Exception as e:
         logger.error(f"Não foi possível criar arquivo placeholder em {ABSOLUTE_IMAGES_DIR}: {e}")
 
@@ -48,7 +48,7 @@ async def validar_header_x_broker_api_version(request: Request, call_next):
     # rotas que não precisam do header (status ou docs genéricos)
     rotas_liberadas = ["/", "/docs", "/openapi.json",f"{settings.ROOT_PATH}/images"]
 
-    if request.url.path.startswith("/images"):
+    if request.url.path.startswith(f"{settings.ROOT_PATH}/images"):
         return await call_next(request)
 
     if any(request.url.path.startswith(f"/{service_type}/status") for service_type in ["cloud-professional-services", "vmware-professional-services", "powervs-professional-services", "textract"]) or \
