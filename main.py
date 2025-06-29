@@ -36,7 +36,7 @@ if not os.path.exists(ABSOLUTE_IMAGES_DIR):
 # images
 
 app.mount(
-    f"{settings.ROOT_PATH}/images",  
+    "/images",  
     StaticFiles(directory=ABSOLUTE_IMAGES_DIR), 
     name="images" 
 )
@@ -46,7 +46,7 @@ app.mount(
 # Middleware para validar o header X-Broker-Api-Version
 @app.middleware("http")
 async def validar_header_x_broker_api_version(request: Request, call_next):
-    logger.info("Middleware request path: %s", request.url.path)
+    print(f"Middleware request path: {request.url.path}" )
     print(ABSOLUTE_IMAGES_DIR)
 
     # rotas que não precisam do header (status ou docs genéricos)
