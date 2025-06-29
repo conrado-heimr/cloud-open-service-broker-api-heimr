@@ -50,7 +50,7 @@ async def validar_header_x_broker_api_version(request: Request, call_next):
     print(ABSOLUTE_IMAGES_DIR)
 
     # rotas que não precisam do header (status ou docs genéricos)
-    rotas_liberadas = ["/", "/docs", "/openapi.json", "/images", f"{settings.ROOT_PATH}/images"]
+    rotas_liberadas = ["/", "/docs", "/openapi.json", f"{settings.ROOT_PATH}/images"]
 
     if any(request.url.path.startswith(prefix) for prefix in rotas_liberadas):
         return await call_next(request)
