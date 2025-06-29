@@ -36,7 +36,7 @@ if not os.path.exists(ABSOLUTE_IMAGES_DIR):
 # images
 
 app.mount(
-    "/images",  # O prefixo da URL onde os arquivos serão servidos
+    f"{settings.ROOT_PATH}/images",  # O prefixo da URL onde os arquivos serão servidos
     StaticFiles(directory=ABSOLUTE_IMAGES_DIR), # <--- AGORA USA O CAMINHO ABSOLUTO CALCULADO
     name="images" # Um nome para a rota, útil para gerar URLs (opcional, mas boa prática)
 )
