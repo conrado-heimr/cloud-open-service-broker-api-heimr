@@ -36,9 +36,9 @@ if not os.path.exists(ABSOLUTE_IMAGES_DIR):
 # images
 
 app.mount(
-    f"{settings.ROOT_PATH}/images",  # O prefixo da URL onde os arquivos serão servidos
-    StaticFiles(directory=ABSOLUTE_IMAGES_DIR), # <--- AGORA USA O CAMINHO ABSOLUTO CALCULADO
-    name="images" # Um nome para a rota, útil para gerar URLs (opcional, mas boa prática)
+    "/images",  
+    StaticFiles(directory=ABSOLUTE_IMAGES_DIR), 
+    name="images" 
 )
 
 
@@ -46,7 +46,7 @@ app.mount(
 @app.middleware("http")
 async def validar_header_x_broker_api_version(request: Request, call_next):
     # rotas que não precisam do header (status ou docs genéricos)
-    rotas_liberadas = ["/", "/docs", "/openapi.json",f"{settings.ROOT_PATH}/images","images"]
+    rotas_liberadas = ["/", "/docs", "/openapi.json","images"]
 
     if request.url.path.startswith(f"{settings.ROOT_PATH}/images"):
         return await call_next(request)
