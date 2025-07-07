@@ -194,6 +194,12 @@ def create_osb_router(api_key: str, gc_object_id: str):
             f"Provisioning instance {instance_id} for GC_OBJECT_ID: {gc_object_id}",
             extra={"method": "PUT", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 0}
         )
+        # Log do corpo da requisição recebido
+        try:
+            logger.debug(f"BODY RECEBIDO:\n{json.dumps(body.dict(), indent=2)}")
+        except Exception as e:
+            logger.warning(f"Falha ao serializar o corpo da requisição (body) para JSON: {e}")
+            logger.debug(f"BODY bruto: {body}")
         try:
             result = broker_service.replace_service_instance(
                 instance_id=instance_id,
@@ -204,6 +210,12 @@ def create_osb_router(api_key: str, gc_object_id: str):
                 parameters=body.parameters,
                 accepts_incomplete=body.accepts_incomplete
             ).get_result()
+            # Log do resultado do broker formatado
+            try:
+                logger.debug(f"RESULTADO DO BROKER:\n{json.dumps(result, indent=2)}")
+            except Exception as e:
+                logger.warning(f"Falha ao serializar o resultado do broker para JSON: {e}")
+                logger.debug(f"RESULTADO bruto: {result}")
             logger.info(
                 f"Instance {instance_id} provisioned successfully for {gc_object_id}",
                 extra={"method": "PUT", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 200}
@@ -223,6 +235,11 @@ def create_osb_router(api_key: str, gc_object_id: str):
             f"Updating instance {instance_id} for GC_OBJECT_ID: {gc_object_id}",
             extra={"method": "PATCH", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 0}
         )
+        # Log do corpo da requisição recebido
+        logger.debug(
+            "BODY RECEBIDO:\n" + json.dumps(body.dict(), indent=2),
+            extra={"method": "PATCH", "endpoint": f"/v2/service_instances/{instance_id}",  "status_code": 0}
+        )
         try:
             result = broker_service.update_service_instance(
                 instance_id=instance_id,
@@ -231,6 +248,11 @@ def create_osb_router(api_key: str, gc_object_id: str):
                 parameters=body.parameters,
                 accepts_incomplete=body.accepts_incomplete
             ).get_result()
+            # Log do resultado retornado pelo broker
+            logger.debug(
+                "RESULTADO DO BROKER:\n" + json.dumps(result, indent=2),
+                extra={"method": "PATCH", "endpoint": f"/v2/service_instances/{instance_id}",  "status_code": 200}
+            )
             logger.info(
                 f"Instance {instance_id} updated successfully for {gc_object_id}",
                 extra={"method": "PATCH", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 200}
@@ -250,6 +272,15 @@ def create_osb_router(api_key: str, gc_object_id: str):
             f"Deprovisioning instance {instance_id} for GC_OBJECT_ID: {gc_object_id}",
             extra={"method": "DELETE", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 0}
         )
+        # Log dos parâmetros recebidos
+        logger.debug(
+            "PARÂMETROS RECEBIDOS:\n" + json.dumps({
+                "service_id": service_id,
+                "plan_id": plan_id,
+                "accepts_incomplete": accepts_incomplete
+            }, indent=2),
+            extra={"method": "DELETE", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 0}
+        )
         try:
             result = broker_service.delete_service_instance(
                 instance_id=instance_id,
@@ -257,6 +288,11 @@ def create_osb_router(api_key: str, gc_object_id: str):
                 plan_id=plan_id,
                 accepts_incomplete=accepts_incomplete
             ).get_result()
+            # Log do resultado retornado pelo broker
+            logger.debug(
+                "RESULTADO DO BROKER:\n" + json.dumps(result, indent=2),
+                extra={"method": "DELETE", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 200}
+            )
             logger.info(
                 f"Instance {instance_id} deprovisioned successfully for {gc_object_id}",
                 extra={"method": "DELETE", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 200}
