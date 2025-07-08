@@ -198,10 +198,10 @@ def create_osb_router(api_key: str, gc_object_id: str,instance_id:str):
         )
         # Log do corpo da requisição recebido
         try:
-            logger.debug(f"BODY RECEBIDO:\n{json.dumps(body.dict(), indent=2)}")
+            logger.warning(f"BODY RECEBIDO:\n{json.dumps(body.dict(), indent=2)}")
         except Exception as e:
             logger.warning(f"Falha ao serializar o corpo da requisição (body) para JSON: {e}")
-            logger.debug(f"BODY bruto: {body}")
+            logger.warning(f"BODY bruto: {body}")
         try:
             result = broker_service.replace_service_instance(
                 instance_id=instance_id,
@@ -214,10 +214,10 @@ def create_osb_router(api_key: str, gc_object_id: str,instance_id:str):
             ).get_result()
             # Log do resultado do broker formatado
             try:
-                logger.debug(f"RESULTADO DO BROKER:\n{json.dumps(result, indent=2)}")
+                logger.warning(f"RESULTADO DO BROKER:\n{json.dumps(result, indent=2)}")
             except Exception as e:
                 logger.warning(f"Falha ao serializar o resultado do broker para JSON: {e}")
-                logger.debug(f"RESULTADO bruto: {result}")
+                logger.warning(f"RESULTADO bruto: {result}")
             logger.info(
                 f"Instance {instance_id} provisioned successfully for {gc_object_id}",
                 extra={"method": "PUT", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 200}
@@ -225,7 +225,7 @@ def create_osb_router(api_key: str, gc_object_id: str,instance_id:str):
             return result
         except Exception as e:
             logger.error(
-                f"Failed to provision instance {instance_id} for {gc_object_id}: {str(e)}",
+                f"Failed to provision instance {instance_id} for {gc_object_id}: {str(e)},BODY bruto: {body}",
                 extra={"method": "PUT", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 400}
             )
             raise HTTPException(status_code=400, detail=str(e))
