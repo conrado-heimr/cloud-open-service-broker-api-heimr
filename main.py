@@ -18,6 +18,7 @@ logger = setup_logging()
 # Configuração do FastAPI
 app = FastAPI(title="Open Service Broker API", debug=settings.ENVIRONMENT == 'development', root_path=settings.ROOT_PATH)
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ABSOLUTE_IMAGES_DIR = os.path.join(BASE_DIR, settings.IMAGES_DIR)
 
@@ -46,8 +47,6 @@ app.mount(
 # Middleware para validar o header X-Broker-Api-Version
 @app.middleware("http")
 async def validar_header_x_broker_api_version(request: Request, call_next):
-    print(f"Middleware request path: {request.url.path}" )
-    print(ABSOLUTE_IMAGES_DIR)
 
     # rotas que não precisam do header (status ou docs genéricos)
     rotas_liberadas = ["/", "/docs", "/openapi.json", f"{settings.ROOT_PATH}/images"]
@@ -86,21 +85,21 @@ async def root_status():
 
 # Cloud Professional Services
 app.include_router(
-    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_CLOUD),
+    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_CLOUD,instance_id=settings.INSTANCE_ID_CLOUD),
     prefix="/cloud-professional-services",
     tags=["Cloud Professional Services OSB"],
 )
 
 # VMware Professional Services
 app.include_router(
-    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_VMWARE),
+    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_VMWARE,instance_id=""),
     prefix="/vmware-professional-services",
     tags=["VMware Professional Services OSB"],
 )
 
 # PowerVS Professional Services
 app.include_router(
-    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_POWERVS),
+    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_POWERVS,instance_id=""),
     prefix="/powervs-professional-services",
     tags=["PowerVS Professional Services OSB"],
 )

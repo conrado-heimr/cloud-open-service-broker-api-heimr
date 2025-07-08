@@ -18,11 +18,11 @@ class Settings:
     IAM_APIKEY: str = os.getenv("IAM_API_KEY")
 
     ROOT_PATH = os.environ.get("ROOT_PATH", "")
-    print(f"ROOT_PATH:{ROOT_PATH}")
     GC_OBJECT_ID_CLOUD: str = os.getenv("GC_OBJECT_ID_CLOUD")
     GC_OBJECT_ID_VMWARE: str = os.getenv("GC_OBJECT_ID_VMWARE")
     GC_OBJECT_ID_POWERVS: str = os.getenv("GC_OBJECT_ID_POWERVS")
-
+    INSTANCE_ID_CLOUD: str = os.getenv("INSTANCE_ID_CLOUD")
+ 
     IMAGES_DIR = "images"
            
     def __init__(self):
@@ -37,4 +37,5 @@ settings = Settings()
 logger.debug(f"Configurações carregadas: ENVIRONMENT={settings.ENVIRONMENT}, "
              f"GC_CLOUD={settings.GC_OBJECT_ID_CLOUD[:5]}..., "
              f"GC_VMWARE={settings.GC_OBJECT_ID_VMWARE[:5]}..., "
-             f"GC_POWERVS={settings.GC_OBJECT_ID_POWERVS[:5]}...")
+             f"GC_POWERVS={settings.GC_OBJECT_ID_POWERVS[:5]}...",
+             f"INSTANCE_ID_CLOUD={settings.INSTANCE_ID_CLOUD}..., ")

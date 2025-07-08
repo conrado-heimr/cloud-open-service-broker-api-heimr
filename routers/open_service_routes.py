@@ -14,6 +14,7 @@ logger = logging.getLogger("BrokerAPI") # Usamos o logger configurado no main.py
 # URLs da API IBM Cloud
 IAM_TOKEN_URL = "https://iam.cloud.ibm.com/identity/token"
 
+
 # --- Funções para interagir com a API de Catálogo Global da IBM (mantidas) ---
 # (As funções get_iam_token e get_catalog_entry_from_ibm_global_catalog permanecem as mesmas)
 def get_iam_token(api_key: str) -> str:
@@ -77,7 +78,7 @@ class ServiceRequest(BaseModel):
     accepts_incomplete: Optional[bool] = None
 
 # ---- FUNÇÃO QUE RETORNA O APIRouter ----
-def create_osb_router(api_key: str, gc_object_id: str):
+def create_osb_router(api_key: str, gc_object_id: str,instance_id:str):
     """
     Cria e retorna um APIRouter configurado para um GC_OBJECT_ID específico.
     """
@@ -188,8 +189,9 @@ def create_osb_router(api_key: str, gc_object_id: str):
             raise HTTPException(status_code=500, detail=f"Erro inesperado ao processar o serviço {gc_object_id}: {e}")
 
     # Provisionar (criar ou substituir) uma instância de serviço
-    @router.put("/v2/service_instances/{instance_id}")
+    @router.put("/v2/service_instances/{instance_id:path}")
     async def provision_service_instance(instance_id: str, body: ServiceRequest):
+        print("Instance ID recebido:", instance_id)
         logger.info(
             f"Provisioning instance {instance_id} for GC_OBJECT_ID: {gc_object_id}",
             extra={"method": "PUT", "endpoint": f"/v2/service_instances/{instance_id}", "status_code": 0}
