@@ -78,7 +78,7 @@ class ServiceRequest(BaseModel):
     accepts_incomplete: Optional[bool] = None
 
 # ---- FUNÇÃO QUE RETORNA O APIRouter ----
-def create_osb_router(api_key: str, gc_object_id: str,instance_id:str):
+def create_osb_router(api_key: str, gc_object_id: str):
     """
     Cria e retorna um APIRouter configurado para um GC_OBJECT_ID específico.
     """
@@ -189,7 +189,7 @@ def create_osb_router(api_key: str, gc_object_id: str,instance_id:str):
             raise HTTPException(status_code=500, detail=f"Erro inesperado ao processar o serviço {gc_object_id}: {e}")
 
     # Provisionar (criar ou substituir) uma instância de serviço
-    @router.put("/v2/service_instances/{instance_id:path}")
+    @router.put("/v2/service_instances/{instance_id}")
     async def provision_service_instance(instance_id: str, body: ServiceRequest):
         print("Instance ID recebido:", instance_id)
         logger.info(
