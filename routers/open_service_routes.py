@@ -189,7 +189,7 @@ def create_osb_router(api_key: str, gc_object_id: str):
             raise HTTPException(status_code=500, detail=f"Erro inesperado ao processar o serviço {gc_object_id}: {e}")
 
     # Provisionar (criar ou substituir) uma instância de serviço
-    @router.put("/v2/service_instances/{instance_id}")
+    @router.put("/v2/service_instances/{instance_id:path}")
     async def provision_service_instance(instance_id: str, body: ServiceRequest):
         print("Instance ID recebido:", instance_id)
         logger.info(
@@ -231,7 +231,7 @@ def create_osb_router(api_key: str, gc_object_id: str):
             raise HTTPException(status_code=400, detail=str(e))
 
     # Atualizar uma instância de serviço
-    @router.patch("/v2/service_instances/{instance_id}")
+    @router.patch("/v2/service_instances/{instance_id:path}")
     async def update_service_instance(instance_id: str, body: ServiceRequest):
         logger.info(
             f"Updating instance {instance_id} for GC_OBJECT_ID: {gc_object_id}",
@@ -268,7 +268,7 @@ def create_osb_router(api_key: str, gc_object_id: str):
             raise HTTPException(status_code=400, detail=str(e))
 
     # Deprovisionar (deletar) uma instância de serviço
-    @router.delete("/v2/service_instances/{instance_id}")
+    @router.delete("/v2/service_instances/{instance_id:path}")
     async def deprovision_service_instance(instance_id: str, service_id: str, plan_id: str, accepts_incomplete: Optional[bool] = None):
         logger.info(
             f"Deprovisioning instance {instance_id} for GC_OBJECT_ID: {gc_object_id}",
