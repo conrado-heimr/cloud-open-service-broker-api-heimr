@@ -9,7 +9,8 @@ def setup_logging():
 
     if not logger.handlers:
         log_format = logging.Formatter(
-            '%(asctime)s - %(levelname)s - %(message)s [method=%(method)s, endpoint=%(endpoint)s, status_code=%(status_code)s]'
+            '%(asctime)s - %(levelname)s - %(message)s'
+            #'%(asctime)s - %(levelname)s - %(message)s [method=%(method)s, endpoint=%(endpoint)s, status_code=%(status_code)s]'
         )
         
         console_handler = logging.StreamHandler()
