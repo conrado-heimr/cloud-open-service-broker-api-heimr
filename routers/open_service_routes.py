@@ -92,7 +92,8 @@ def create_osb_router(api_key: str, gc_object_id: str, base_url: str, prefix: st
 
     authenticator = IAMAuthenticator(api_key)
     broker_service = OpenServiceBrokerV1(authenticator=authenticator)
-
+    broker_service.DEFAULT_SERVICE_URL = f"{base_url}{prefix}/v2"
+    
     router = APIRouter()
 
     # Listar catálogo de serviços
