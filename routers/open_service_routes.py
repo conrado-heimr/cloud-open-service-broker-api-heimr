@@ -215,7 +215,7 @@ def create_osb_router(api_key: str, gc_object_id: str, base_url: str, prefix: st
                 organization_guid=body.organization_guid,
                 space_guid=body.space_guid,
                 parameters={**(body.parameters or {}), "service_url": f"{base_url}{prefix}"},
-                accepts_incomplete=body.accepts_incomplete,,
+                accepts_incomplete=body.accepts_incomplete
 
             ).get_result()
             # Log do resultado do broker formatado
