@@ -81,7 +81,7 @@ class ServiceRequest(BaseModel):
     space_guid: Optional[str] = None
 
 # ---- FUNÇÃO QUE RETORNA O APIRouter ----
-def create_osb_router(api_key: str, gc_object_id: str):
+def create_osb_router(api_key: str, gc_object_id: str, base_url: str, prefix: str):
     """
     Cria e retorna um APIRouter configurado para um GC_OBJECT_ID específico.
     """
@@ -145,6 +145,7 @@ def create_osb_router(api_key: str, gc_object_id: str):
                 "bindable": service_bindable,
                 "tags": service_tags,
                 "plans": osb_plans,
+                "service_url" : f"{base_url}{prefix}/v2",
                 "metadata": {
                     "longDescription": service_long_description,
                     "displayName": global_catalog_entry.get("overview_ui", {}).get("en", {}).get("display_name"),

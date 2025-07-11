@@ -119,21 +119,24 @@ async def root_status():
 
 # Cloud Professional Services
 app.include_router(
-    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_CLOUD),
+    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_CLOUD,base_url=settings.BASE_URL,
+        prefix="/cloud-professional-services"),
     prefix="/cloud-professional-services",
     tags=["Cloud Professional Services OSB"],
 )
 
 # VMware Professional Services
 app.include_router(
-    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_VMWARE),
+    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_VMWARE,base_url=settings.BASE_URL,
+        prefix="/vmware-professional-services"),
     prefix="/vmware-professional-services",
     tags=["VMware Professional Services OSB"],
 )
 
 # PowerVS Professional Services
 app.include_router(
-    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_POWERVS),
+    create_osb_router(api_key=settings.IAM_APIKEY, gc_object_id=settings.GC_OBJECT_ID_POWERVS,base_url=settings.BASE_URL,
+        prefix="/powervs-professional-services"),
     prefix="/powervs-professional-services",
     tags=["PowerVS Professional Services OSB"],
 )

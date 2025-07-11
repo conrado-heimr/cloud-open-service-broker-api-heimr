@@ -22,6 +22,7 @@ class Settings:
     GC_OBJECT_ID_VMWARE: str = os.getenv("GC_OBJECT_ID_VMWARE")
     GC_OBJECT_ID_POWERVS: str = os.getenv("GC_OBJECT_ID_POWERVS")
     INSTANCE_ID_CLOUD: str = os.getenv("INSTANCE_ID_CLOUD")
+    BASE_URL: str = os.getenv("BASE_URL")
  
     IMAGES_DIR = "images"
            
