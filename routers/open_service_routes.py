@@ -76,6 +76,7 @@ class ServiceRequest(BaseModel):
     space_guid: str
     parameters: Optional[Dict] = None
     accepts_incomplete: Optional[bool] = None
+    context: Optional[Dict] = None
 
 # ---- FUNÇÃO QUE RETORNA O APIRouter ----
 def create_osb_router(api_key: str, gc_object_id: str):
