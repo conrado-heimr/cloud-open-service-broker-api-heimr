@@ -77,7 +77,7 @@ async def root_status():
     Verifica o status da API principal.
     """
     logger.info("Received root status check request", extra={"method": "GET", "endpoint": "/status", "status_code": 200})
-    response = {"status": "ok", "environment": settings.ENVIRONMENT, "message": "Broker API Gateway is running"}
+    response = {"status": "ok", "environment": settings.ENVIRONMENT, "message": "Broker API Gateway is running","ROOT_PATH":settings.ROOT_PATH}
     logger.info("Root status check successful", extra={"method": "GET", "endpoint": "/status", "status_code": 200})
     return response
 

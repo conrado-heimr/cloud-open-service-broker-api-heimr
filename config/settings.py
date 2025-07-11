@@ -17,7 +17,7 @@ class Settings:
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
     IAM_APIKEY: str = os.getenv("IAM_API_KEY")
 
-    ROOT_PATH = os.getenv("ROOT_PATH", "")
+    ROOT_PATH: str = os.getenv("ROOT_PATH", "")
     GC_OBJECT_ID_CLOUD: str = os.getenv("GC_OBJECT_ID_CLOUD")
     GC_OBJECT_ID_VMWARE: str = os.getenv("GC_OBJECT_ID_VMWARE")
     GC_OBJECT_ID_POWERVS: str = os.getenv("GC_OBJECT_ID_POWERVS")
