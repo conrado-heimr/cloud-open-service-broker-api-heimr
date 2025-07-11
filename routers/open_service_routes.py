@@ -92,8 +92,8 @@ def create_osb_router(api_key: str, gc_object_id: str, base_url: str, prefix: st
 
     authenticator = IAMAuthenticator(api_key)
     broker_service = OpenServiceBrokerV1(authenticator=authenticator)
-    broker_service.DEFAULT_SERVICE_URL = f"{base_url}{prefix}/v2"
-    
+    broker_service.set_service_url(f"{base_url}{prefix}/v2")
+
     router = APIRouter()
 
     # Listar catálogo de serviços
@@ -214,9 +214,9 @@ def create_osb_router(api_key: str, gc_object_id: str, base_url: str, prefix: st
                 plan_id=body.plan_id,
                 organization_guid=body.organization_guid,
                 space_guid=body.space_guid,
-                parameters=body.parameters,
-                accepts_incomplete=body.accepts_incomplete,
-                service_url=f"{base_url}{prefix}/v2",
+                parameters={**(body.parameters or {}), "service_url": f"{base_url}{prefix}"},
+                accepts_incomplete=body.accepts_incomplete,,
+
             ).get_result()
             # Log do resultado do broker formatado
             try:
