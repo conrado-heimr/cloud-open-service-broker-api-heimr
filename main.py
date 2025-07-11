@@ -24,9 +24,31 @@ app = FastAPI(title="Open Service Broker API", debug=settings.ENVIRONMENT == 'de
 class LogRawRequestBodyMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         body = await request.body()
-        logger.warning(f"[RAW REQUEST BODY] {body.decode('utf-8')}")
+
+        logger.warning(
+            f"[RAW REQUEST BODY] {body.decode('utf-8')}",
+            extra={
+                "method": request.method,
+                "endpoint": request.url.path,
+                "status_code": None,  # Como ainda não tem resposta, deixa None aqui
+            }
+        )
+
         request._receive = lambda: {"type": "http.request", "body": body, "more_body": False}
-        return await call_next(request)
+
+        response = await call_next(request)
+
+        # Se quiser, pode logar aqui a resposta com status:
+        logger.info(
+            f"[RESPONSE STATUS] {response.status_code} para {request.method} {request.url.path}",
+            extra={
+                "method": request.method,
+                "endpoint": request.url.path,
+                "status_code": response.status_code,
+            }
+        )
+
+        return response
 
 app.add_middleware(LogRawRequestBodyMiddleware)
 
