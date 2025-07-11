@@ -72,11 +72,13 @@ def get_catalog_entry_from_ibm_global_catalog(access_token: str, catalog_id: str
 class ServiceRequest(BaseModel):
     service_id: str
     plan_id: str
-    organization_guid: str
-    space_guid: str
+    context: Optional[Dict] = None  # obrigatório na prática para IBM Cloud
     parameters: Optional[Dict] = None
     accepts_incomplete: Optional[bool] = None
-    context: Optional[Dict] = None
+    
+    # organization_guid e space_guid são deprecated, mas você pode deixar opcionais para compatibilidade
+    organization_guid: Optional[str] = None
+    space_guid: Optional[str] = None
 
 # ---- FUNÇÃO QUE RETORNA O APIRouter ----
 def create_osb_router(api_key: str, gc_object_id: str):

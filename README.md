@@ -119,13 +119,13 @@ cd /mnt/prod/broker-api
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-```
+````
 
 Tornar start.sh Executável:
 
 ````
 chmod +x /mnt/dev/broker-api/start.sh /mnt/prod/broker-api/start.sh
-`````
+````
 
 3. Atualizar os Serviços Systemd
 Ajuste o broker-api-dev.service e crie o broker-api-prod.service para usar o usuário ubuntu e os diretórios corretos.
@@ -181,3 +181,12 @@ sudo systemctl enable broker-api-dev.service
 sudo systemctl start broker-api-dev.service
 sudo systemctl enable broker-api-prod.service
 sudo systemctl start broker-api-prod.service
+
+## Reiniciar servico
+ ````
+ sudo systemctl restart broker-api-dev.service
+ ````
+## Requisicao em tempo real 
+ ````
+ sudo journalctl -u broker-api-dev.service -f
+ ````
