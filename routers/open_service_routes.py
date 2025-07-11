@@ -214,7 +214,8 @@ def create_osb_router(api_key: str, gc_object_id: str, base_url: str, prefix: st
                 organization_guid=body.organization_guid,
                 space_guid=body.space_guid,
                 parameters=body.parameters,
-                accepts_incomplete=body.accepts_incomplete
+                accepts_incomplete=body.accepts_incomplete,
+                service_url=f"{base_url}{prefix}/v2",
             ).get_result()
             # Log do resultado do broker formatado
             try:
@@ -252,7 +253,8 @@ def create_osb_router(api_key: str, gc_object_id: str, base_url: str, prefix: st
                 service_id=body.service_id,
                 plan_id=body.plan_id,
                 parameters=body.parameters,
-                accepts_incomplete=body.accepts_incomplete
+                accepts_incomplete=body.accepts_incomplete,
+                service_url=f"{base_url}{prefix}/v2",
             ).get_result()
             # Log do resultado retornado pelo broker
             logger.debug(
@@ -292,7 +294,8 @@ def create_osb_router(api_key: str, gc_object_id: str, base_url: str, prefix: st
                 instance_id=instance_id,
                 service_id=service_id,
                 plan_id=plan_id,
-                accepts_incomplete=accepts_incomplete
+                accepts_incomplete=accepts_incomplete,
+                service_url=f"{base_url}{prefix}/v2",
             ).get_result()
             # Log do resultado retornado pelo broker
             logger.debug(
