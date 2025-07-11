@@ -2,6 +2,8 @@
 from fastapi import FastAPI, Request, Response
 from fastapi.staticfiles import StaticFiles
 import os
+from starlette.middleware.base import BaseHTTPMiddleware
+
 
 # Importe suas configurações da pasta 'config'
 from config.settings import settings
@@ -17,6 +19,16 @@ logger = setup_logging()
 
 # Configuração do FastAPI
 app = FastAPI(title="Open Service Broker API", debug=settings.ENVIRONMENT == 'development', root_path=settings.ROOT_PATH)
+
+# --- Middleware para log do corpo bruto antes de validação (ajuda a diagnosticar 422) ---
+class LogRawRequestBodyMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        body = await request.body()
+        logger.warning(f"[RAW REQUEST BODY] {body.decode('utf-8')}")
+        request._receive = lambda: {"type": "http.request", "body": body, "more_body": False}
+        return await call_next(request)
+
+app.add_middleware(LogRawRequestBodyMiddleware)
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
